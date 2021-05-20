@@ -154,3 +154,20 @@ def parser(base_path, pack_id, verbose=False):
   toc = time.perf_counter()
   print(f"Created csv files in {toc - tic:0.4f} seconds")
   return(n_files)
+
+def create_merged_file(base_path, pack_id):
+  # start timer
+  tic = time.perf_counter()
+
+  current_csvfiles = glob.glob(base_path + '*/*/*{}*.csv'.format(pack_id), recursive = True)
+  n_files = len(current_csvfiles)
+
+  # merge like files
+  merge_df = pd.concat([pd.read_csv(f, index_col=[0,1])for f in current_csvfiles])
+  merge_fn = pack_id.replace("-", "_") + generate_system_time() + ".csv"
+  merge_df.to_csv(merge_fn, index=False)
+
+  # stop timer
+  toc = time.perf_counter()
+  print(f"Created merged file in {toc - tic:0.4f} seconds")
+  return(n_files)

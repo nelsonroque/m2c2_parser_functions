@@ -1,3 +1,21 @@
+# IMPORTS ---------------------------------------
+import os
+import re
+import sys
+import time
+import datetime
+import hashlib
+from functools import reduce
+import pandas as pd
+from pandas.core.common import flatten
+import json
+import urllib.parse
+from glob import glob
+from io import StringIO # python3; python2: BytesIO
+
+import os.path
+from os import path
+
 # UTILITY FUNCTIONS --------------------------------------
 def generate_system_time(to_str=True):
   if to_str:

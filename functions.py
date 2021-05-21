@@ -50,11 +50,11 @@ def split_to_list(data=None, delim="\r\n", log=True, session_uuid=None):
 def parse_survey_data(data):
     # split body into list
     decrypted_data_lines = data
-    
+
     # init containers
     keys = []
     vals = []
-    
+
     # start parsing based on first colon
     for line in decrypted_data_lines:
         ls = line.split(":", 1)
@@ -66,12 +66,12 @@ def parse_survey_data(data):
             pass
         else:
             exit(generate_system_time() + " | Parse failure" + str(ls))
-            
+
         # save key values
         keys.append(key)
         vals.append(value)
     return(keys, vals)
-    
+
 def parse_cognitive_data(data):
     lines = data
     PATTERN_MATCH_UNNESTED_COMMAS = ',\s*(?![^{}]*\})'
@@ -164,7 +164,7 @@ def parser(base_path, pack_id, verbose=False):
         if of_equal_length(keys, vals):
             # Create the pandas DataFrame
             pd_df = pd.DataFrame([vals])
-            #pd_df.dropna(how='all', axis=1, inplace=True) 
+            #pd_df.dropna(how='all', axis=1, inplace=True)
             pd_df.columns = keys
       pd_df.to_csv(parse_fn_csv, index=False)
 
@@ -173,7 +173,7 @@ def parser(base_path, pack_id, verbose=False):
   print(f"Created csv files in {toc - tic:0.4f} seconds")
   return(n_files)
 
-def create_merged_file(base_path, pack_id):
+def create_merged_file(base_path, out_path, pack_id):
   # start timer
   tic = time.perf_counter()
 
@@ -182,7 +182,7 @@ def create_merged_file(base_path, pack_id):
 
   # merge like files
   merge_df = pd.concat([pd.read_csv(f, index_col=[0,1])for f in current_csvfiles])
-  merge_fn = pack_id.replace("-", "_") + generate_system_time() + ".csv"
+  merge_fn = out_path + pack_id.replace("-", "_") + "-" + generate_system_time() + ".csv"
   merge_df.to_csv(merge_fn, index=False)
 
   # stop timer

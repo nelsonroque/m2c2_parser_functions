@@ -3,7 +3,7 @@ import os
 import re
 import sys
 import time
-import datetime
+from datetime import datetime
 import hashlib
 from functools import reduce
 import pandas as pd
@@ -19,9 +19,9 @@ from os import path
 # UTILITY FUNCTIONS --------------------------------------
 def generate_system_time(to_str=True):
   if to_str:
-      return datetime.datetime.now().isoformat()
+      return datetime.now().isoformat()
   else:
-      return datetime.datetime.now()
+      return datetime.now()
 
 # PARSING FUNCTIONS -----------------------------
 def get_m2c2_file_type(filename=None):
@@ -107,7 +107,7 @@ def of_equal_length(a,b):
     return valid
 
 def parser(base_path, pack_id, verbose=False):
-  pfile_list = glob.glob(base_path + '*/*/*{}*.txt'.format(pack_id), recursive = True)
+  pfile_list = glob(base_path + '*/*/*{}*.txt'.format(pack_id), recursive = True)
   n_files = len(pfile_list)
 
   # start timer
@@ -177,7 +177,7 @@ def create_merged_file(base_path, pack_id):
   # start timer
   tic = time.perf_counter()
 
-  current_csvfiles = glob.glob(base_path + '*/*/*{}*.csv'.format(pack_id), recursive = True)
+  current_csvfiles = glob(base_path + '*/*/*{}*.csv'.format(pack_id), recursive = True)
   n_files = len(current_csvfiles)
 
   # merge like files
